@@ -33,3 +33,4 @@ __pycache__/
 groups.json
 knowledge.json
 hook/placement.txt
+CHANGELOG.md
