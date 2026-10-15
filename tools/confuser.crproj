@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 난독화 설정. 백신 오탐을 줄이려고 안티 디버그·안티 변조·패커는 쓰지 않는다.
+     PdfCore의 public API 이름은 남겨 엔진 시험 프로그램으로 난독화 결과를 검증할 수 있게 한다. -->
+<project outputDir="obf" baseDir="." xmlns="http://confuser.codeplex.com">
+  <rule pattern="true" preset="none" inherit="false">
+    <protection id="rename">
+      <argument name="mode" value="sequential" />
+      <argument name="renPublic" value="false" />
+    </protection>
+    <protection id="ctrl flow" />
+    <protection id="constants" />
+  </rule>
+  <module path="몽PDF.exe" />
+  <module path="PdfCore.dll" />
+</project>
