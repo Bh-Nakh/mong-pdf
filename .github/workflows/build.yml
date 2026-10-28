@@ -1,6 +1,6 @@
 name: build
 
-# 소스가 main 에 푸시되면 빌드하고, 버전이 올라갔으면 이 저장소의 Release(v1)에 업데이트 파일과 latest.json 을 올린다.
+# 소스가 main 에 푸시되면 빌드하고, 버전이 올라갔으면 이 저장소에 버전별 Release(v<버전>)를 새로 만들어 업데이트 파일과 latest.json 을 올린다.
 # 손으로 돌릴 때(workflow_dispatch) 태그를 바꾸면 시험용 Release(미리보기)에 올린다.
 on:
   push:
@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "올릴 Release 태그 (시험할 때만 바꾼다)"
-        default: v1
+        description: "올릴 Release 태그 (비워 두면 새 버전 태그 v<버전>으로 자동 배포, 시험할 때만 채운다)"
+        default: ""
 
 permissions:
   contents: write
@@ -50,4 +50,4 @@ jobs:
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-        run: ./tools/mong_publish.ps1 -App mongpdf -VersionFile 'src/App/AssemblyInfo.cs' -VersionPattern 'AssemblyFileVersion\("(\d+\.\d+\.\d+)' -File 'dist/*-Setup*.exe' -AssetName MongPDF-Setup.exe -Kind setup -Tag "${{ github.event.inputs.tag || 'v1' }}"
+        run: ./tools/mong_publish.ps1 -App mongpdf -VersionFile 'src/App/AssemblyInfo.cs' -VersionPattern 'AssemblyFileVersion\("(\d+\.\d+\.\d+)' -File 'dist/*-Setup*.exe' -AssetName MongPDF-Setup.exe -Kind setup -Tag "${{ github.event.inputs.tag || '' }}"
